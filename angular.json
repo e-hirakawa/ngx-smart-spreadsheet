@@ -1,7 +1,42 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": false
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-  }
+    "ngx-smart-spreadsheet": {
+      "projectType": "library",
+      "root": "projects/ngx-smart-spreadsheet",
+      "sourceRoot": "projects/ngx-smart-spreadsheet/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ngx-smart-spreadsheet/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-smart-spreadsheet/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-smart-spreadsheet/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-smart-spreadsheet/src/test.ts",
+            "tsConfig": "projects/ngx-smart-spreadsheet/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-smart-spreadsheet/karma.conf.js"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ngx-smart-spreadsheet"
 }
