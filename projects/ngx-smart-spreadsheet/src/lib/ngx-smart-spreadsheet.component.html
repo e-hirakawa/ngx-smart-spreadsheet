@@ -1,0 +1,18 @@
+<div class="container" *ngIf="table">
+    <table class="spreadsheet__table" id="table-main">
+        <thead class="spreadsheet__table--headers" id="table-headers">
+            <tr>
+                <th></th>
+                <th *ngFor="let col of table.head">{{col}}</th>
+            </tr>
+        </thead>
+        <tbody class="spreadsheet__table--body" id="table-body">
+            <tr *ngFor="let row of table.body; let r = index">
+                <th>{{r + 1}}</th>
+                <td [id]="cell.id" *ngFor="let cell of row; let c = index" tabindex="0"
+                    [class.focus]="cell === selectedCell" [textContent]="cell.value" (input)="setValue($event, cell)"
+                    (click)="setFocus($event, cell)" (dblclick)="setEditable($event, cell)"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

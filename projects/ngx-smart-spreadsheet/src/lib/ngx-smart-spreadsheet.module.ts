@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgxSmartSpreadsheetComponent } from './ngx-smart-spreadsheet.component';
 
@@ -8,6 +9,7 @@ import { NgxSmartSpreadsheetComponent } from './ngx-smart-spreadsheet.component'
     NgxSmartSpreadsheetComponent
   ],
   imports: [
+    CommonModule
   ],
   exports: [
     NgxSmartSpreadsheetComponent
