@@ -1,6 +1,6 @@
 {
   "name": "ngx-smart-spreadsheet",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -48,5 +48,5 @@
   "bugs": {
     "url": "https://github.com/e-hirakawa/angular-libraries"
   },
-  "homepage": "https://github.com/e-hirakawa/angular-libraries"
+  "homepage": "https://github.com/e-hirakawa/angular-libraries#readme"
 }
