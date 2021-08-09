@@ -1,0 +1,29 @@
+.menu {
+    position: absolute;
+    background-color: white;
+    user-select: none;
+    min-width: 16rem;
+    box-shadow: 0 0.5rem 0.8rem 0 rgb(0 0 0 / 10%);
+    z-index: 9;
+    display: none;
+    flex-direction: column;
+    padding: 0.5em 0;
+    border-radius: 4px;
+    .item {
+        cursor: pointer;
+        padding: 0.5em 1em;
+        &:hover:not(.disabled) {
+            background: #f0f0f0;
+        }
+        &.disabled {
+            opacity: 0.5;
+            cursor: default;
+        }
+    }
+    .divider {
+        width: 100%;
+        margin-top: 0.5em;
+        padding-top: 0.5em;
+        border-top: 1px solid #ddd;
+    }
+}

@@ -1,0 +1,11 @@
+<div #menu class="menu">
+    <ng-container *ngFor="let item of itemTemplates">
+        <div class="item" *ngIf="!item.divider; else divider" (click)="item.clicked(target)"
+            [class.disabled]="item.disabled">
+            {{item.label}}
+        </div>
+        <ng-template #divider>
+            <div class="divider"></div>
+        </ng-template>
+    </ng-container>
+</div>
