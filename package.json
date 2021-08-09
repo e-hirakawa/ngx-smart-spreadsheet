@@ -1,6 +1,6 @@
 {
   "name": "ngx-smart-spreadsheet",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -8,6 +8,7 @@
     "publish": "npm run build && npm publish dist/ngx-smart-spreadsheet",
     "build:example": "ng build example",
     "watch": "ng build ngx-smart-spreadsheet --watch --configuration development",
+    "ghpages": "ng build example --prod --base-href \"https://e-hirakawa.github.io/ngx-smart-spreadsheet/\" && ngh --dir=dist/example",
     "test": "ng test"
   },
   "private": true,

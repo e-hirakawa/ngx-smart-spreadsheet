@@ -1,11 +1,22 @@
 {
   "name": "ngx-smart-spreadsheet",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "peerDependencies": {
     "@angular/common": "^12.1.0",
     "@angular/core": "^12.1.0"
   },
   "dependencies": {
     "tslib": "^2.2.0"
-  }
+  },
+  "keywords": [
+    "Angular",
+    "Spreadsheet",
+    "Lightweight"
+  ],
+  "author": "Eiji Hirakawa",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/e-hirakawa/ngx-smart-spreadsheet"
+  },
+  "homepage": "https://github.com/e-hirakawa/ngx-smart-spreadsheet#readme"
 }
