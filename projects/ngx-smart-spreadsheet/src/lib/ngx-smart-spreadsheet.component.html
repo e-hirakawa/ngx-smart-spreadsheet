@@ -1,18 +1,54 @@
 <div class="container" *ngIf="table">
-    <table class="spreadsheet__table" id="table-main">
-        <thead class="spreadsheet__table--headers" id="table-headers">
+    <table>
+        <thead>
             <tr>
                 <th></th>
-                <th *ngFor="let col of table.head">{{col}}</th>
+                <th *ngFor="let col of table.head; let c = index" (click)="clickHeader(c)"
+                    (mouseenter)="activeTheadIndex = c" (mouseleave)="activeTheadIndex = -1">
+                    <div class="head">
+                        <div class="label">{{col}}</div>
+                        <div class="dropdown" *ngIf="activeTheadIndex === c">
+                            <button class="dropbtn" (click)="showTheadMenu($event, c)">&gt;</button>
+                        </div>
+                    </div>
+                </th>
             </tr>
         </thead>
-        <tbody class="spreadsheet__table--body" id="table-body">
-            <tr *ngFor="let row of table.body; let r = index">
-                <th>{{r + 1}}</th>
-                <td [id]="cell.id" *ngFor="let cell of row; let c = index" tabindex="0"
-                    [class.focus]="cell === selectedCell" [textContent]="cell.value" (input)="setValue($event, cell)"
-                    (click)="setFocus($event, cell)" (dblclick)="setEditable($event, cell)"></td>
+        <tbody>
+            <tr *ngFor="let row of table.body; let r = index;">
+                <th (click)="clickRow(r)" (mouseenter)="activeTbodyIndex = r" (mouseleave)="activeTbodyIndex = -1">
+                    <div class="head">
+                        <div class="label">{{r + 1}}</div>
+                        <div class="dropdown" *ngIf="activeTbodyIndex === r">
+                            <button class="dropbtn" (click)="showTbodyMenu($event, r)">&gt;</button>
+                        </div>
+                    </div>
+                </th>
+                <td [id]="cell.id" *ngFor="let cell of row; let c = index; trackBy: trackByCell"
+                    [class.focus]="cell === activatedCell" [class.sel]="range?.includes(cell.row, cell.col)"
+                    nssContentEditable [(model)]="cell.value" (focus)="focus($event)" (blur)="blur($event)"
+                    (dblclick)="dblclick($event, cell)" [attr.contenteditable]="cell.editable">
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<ngx-context-menu #theadMenu (closed)="activeTheadIndex = -1">
+    <ngx-context-menu-item label="Insert 1 column left" (click)="table.insertColumn($event)">
+    </ngx-context-menu-item>
+    <ngx-context-menu-item label="Insert 1 column right" (click)="table.insertColumn($event + 1)">
+    </ngx-context-menu-item>
+    <ngx-context-menu-item [divider]="true"></ngx-context-menu-item>
+    <ngx-context-menu-item label="Delete column" [disabled]="table.colCount <= 1" (click)="table.deleteColumn($event)">
+    </ngx-context-menu-item>
+</ngx-context-menu>
+
+<ngx-context-menu #tbodyMenu (closed)="activeTbodyIndex = -1">
+    <ngx-context-menu-item label="Insert 1 row above" (click)="table.insertRow($event)">
+    </ngx-context-menu-item>
+    <ngx-context-menu-item label="Insert 1 row below" (click)="table.insertRow($event + 1)"></ngx-context-menu-item>
+    <ngx-context-menu-item [divider]="true"></ngx-context-menu-item>
+    <ngx-context-menu-item label="Delete row" [disabled]="table.rowCount <= 1" (click)="table.deleteRow($event)">
+    </ngx-context-menu-item>
+</ngx-context-menu>

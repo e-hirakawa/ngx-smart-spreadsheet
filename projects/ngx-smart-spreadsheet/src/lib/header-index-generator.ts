@@ -5,10 +5,7 @@ const LENGTH = CHARS.length;
 const generateHeader = (index: number): string => {
     index -= 1;
     const remain = Math.floor(index / LENGTH);
-    if (remain > 0) {
-        return generateHeader(remain) + CHARS[index % LENGTH];
-    }
-    return CHARS[index % LENGTH];
+    return (remain > 0) ? generateHeader(remain) + CHARS[index % LENGTH] : CHARS[index % LENGTH];
 };
 
 export default generateHeader;
