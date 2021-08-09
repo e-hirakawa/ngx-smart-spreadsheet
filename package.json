@@ -1,6 +1,6 @@
 {
   "name": "ngx-smart-spreadsheet",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -47,7 +47,7 @@
   "author": "Eiji Hirakawa",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/e-hirakawa/angular-libraries"
+    "url": "https://github.com/e-hirakawa/ngx-smart-spreadsheet"
   },
-  "homepage": "https://github.com/e-hirakawa/angular-libraries#readme"
+  "homepage": "https://github.com/e-hirakawa/ngx-smart-spreadsheet#readme"
 }
