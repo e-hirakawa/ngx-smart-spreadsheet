@@ -9,13 +9,35 @@ class Table {
         public body: Cell[][]
     ) { }
 
-    public static of(recordCount: number, fieldCount: number): Table {
-        const row = Array(fieldCount).fill('');
+    public static empty(rows: number, cols: number): Table {
         const tableId = generageId();
+        const row = Array(cols).fill('');
         const head = row.map((v, c) => generateHeader(c + 1));
         const body = [];
-        for (let r = 0; r < recordCount; r++) {
+        for (let r = 0; r < rows; r++) {
             body.push(row.map((v, c) => new Cell(tableId, r, c, '')));
+        }
+        return new Table(tableId, head, body);
+    }
+
+    public static load(data: string[][]): Table {
+        if (!data.length) {
+            throw new Error('Error: invalid data structure');
+        }
+        const tableId = generageId();
+        const cols = data[0].length;
+        const head = Array(cols).fill('').map((v, c) => generateHeader(c + 1));
+        const body = [];
+        for (let r = 0; r < data.length; r++) {
+            const row = data[r];
+            if (head.length !== row.length) {
+                throw new Error('Error: invalid data structure');
+            }
+            const bodyRow: Cell[] = [];
+            for (let c = 0; c < row.length; c++) {
+                bodyRow.push(new Cell(tableId, r, c, row[c]));
+            }
+            body.push(bodyRow);
         }
         return new Table(tableId, head, body);
     }

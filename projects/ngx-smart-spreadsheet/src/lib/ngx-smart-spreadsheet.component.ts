@@ -5,6 +5,7 @@ import Cell from './model/cell';
 import Range from './model/range';
 import Table from './model/table';
 import { NgxContextMenuComponent } from './ngx-context-menu.component';
+import SpreadsheetSettings from './spreadsheet-settings';
 
 @Component({
   selector: 'ngx-smart-spreadsheet',
@@ -18,14 +19,12 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   tbodyContextMenu!: NgxContextMenuComponent;
 
   @Input()
-  recordCount = 30;
-  @Input()
-  fieldCount = 10;
+  settings: SpreadsheetSettings | null = null;
 
   @Output()
   copied = new EventEmitter<string>();
 
-  table!: Table;
+  table: Table | null = null;
   activatedCell: Cell | null = null;
   range: Range | null = null;
   anchor: Anchor | null = null;
@@ -34,11 +33,22 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   activeTbodyIndex: number = -1;
 
   ngOnInit(): void {
-    this.table = Table.of(this.recordCount, this.fieldCount);
+    if (this.settings?.rows && this.settings?.cols) {
+      this.table = Table.empty(this.settings.rows, this.settings.cols);
+    } else if (this.settings?.data) {
+      this.table = Table.load(this.settings.data);
+    }
+  }
+
+  public get data(): string[][] {
+    if (!this.table) {
+      return [[]];
+    }
+    return this.table.body.map(row => row.map(cell => cell.value));
   }
 
   @HostListener('mousedown', ['$event'])
-  mousedown(ev: MouseEvent): void {
+  private mousedown(ev: MouseEvent): void {
     const { row, col, valid } = this.getPositionFromId(ev.target);
     if (!valid) {
       return;
@@ -50,7 +60,7 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   }
 
   @HostListener('document:mousemove', ['$event'])
-  mousemove(ev: MouseEvent): void {
+  private mousemove(ev: MouseEvent): void {
     if (!this.range || !this.anchor) {
       return;
     }
@@ -64,7 +74,7 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   }
 
   @HostListener('document:mouseup', ['$event'])
-  mouseup(ev: MouseEvent): void {
+  private mouseup(ev: MouseEvent): void {
     if (ev.shiftKey && this.anchor) {
       const self = this.getPositionFromId(ev.target);
       if (self.valid) {
@@ -78,7 +88,7 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   }
 
   @HostListener('document:keydown', ['$event'])
-  onKeyDown(ev: KeyboardEvent): void {
+  private onKeyDown(ev: KeyboardEvent): void {
     const key = ev.key.toLowerCase();
     const isCtrl = ((ev.ctrlKey && !ev.metaKey) || (!ev.ctrlKey && ev.metaKey));
 
@@ -109,7 +119,7 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   }
 
   @HostListener('document:keyup', ['$event'])
-  onKeyUp(ev: KeyboardEvent): void {
+  private onKeyUp(ev: KeyboardEvent): void {
     if (!this.activatedCell || this.activatedCell.editable) {
       return;
     }
@@ -138,13 +148,16 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   }
 
   clickHeader(colIndex: number): void {
-    const rowLength = this.table.body.length;
+    const rowLength = this.table?.body.length || 0;
     if (rowLength > 0) {
       this.range = Range.of(0, colIndex, rowLength, colIndex);
     }
   }
 
   clickRow(rowIndex: number): void {
+    if (!this.table) {
+      return;
+    }
     if (rowIndex >= 0 && rowIndex < this.table.body.length) {
       const cols = this.table.body[rowIndex];
       this.range = Range.of(rowIndex, 0, rowIndex, cols.length);
@@ -196,6 +209,9 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   //#endregion
 
   private moveTo(row: number, col: number, shiftKey: boolean): void {
+    if (!this.table) {
+      return;
+    }
     const { body } = this.table;
     if (row >= 0 && row < body.length) {
       const cols = body[row];
@@ -223,12 +239,12 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
 
   private findCellByEventTarget(target: EventTarget | null): Cell | null {
     const { row, col, valid } = this.getPositionFromId(target);
-    return valid ? this.table.findCell(row, col) : null;
+    return valid ? (this.table?.findCell(row, col) || null) : null;
   }
 
   private getPositionFromId(target: EventTarget | null): { row: number, col: number, valid: boolean } {
     const element = target as HTMLTableCellElement;
-    if (!element?.id?.match(/(\w+)-(\d+)-(\d+)/)) {
+    if (!this.table || !element?.id?.match(/(\w+)-(\d+)-(\d+)/)) {
       return { row: NaN, col: NaN, valid: false };
     }
     const valid = RegExp.$1 === this.table.id;
@@ -238,7 +254,7 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   }
 
   private copy(): void {
-    if (!this.range) {
+    if (!this.table || !this.range) {
       return;
     }
     const lines = [];
@@ -263,7 +279,7 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   }
 
   private paste(): void {
-    if (!this.range) {
+    if (!this.table || !this.range) {
       return;
     }
     const { r1, c1, r2, c2 } = this.range;
@@ -277,7 +293,7 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
           const clipboardText = ar[0][0];
           for (let r = r1; r <= r2; r++) {
             for (let c = c1; c <= c2; c++) {
-              const cell = this.table.findCell(r, c);
+              const cell = this.table!.findCell(r, c);
               if (cell) {
                 cell.value = clipboardText;
               }
@@ -286,7 +302,7 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
         } else if ((r2 - r1 + 1) === ar.length && (c2 - c1 + 1) === ar[0].length) {
           for (let r = r1; r <= r2; r++) {
             for (let c = c1; c <= c2; c++) {
-              const cell = this.table.findCell(r, c);
+              const cell = this.table!.findCell(r, c);
               if (cell) {
                 cell.value = ar[r][c];
               }
@@ -298,7 +314,7 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
             const row = ar[r];
             for (let c = 0, tableCol = c1; c < row.length; c++, tableCol++) {
               const col = row[c];
-              cell = this.table.findCell(tableRow, tableCol);
+              cell = this.table!.findCell(tableRow, tableCol);
               if (cell) {
                 cell.value = col;
               }
@@ -312,7 +328,7 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   }
 
   private delete(): void {
-    if (!this.range) {
+    if (!this.table || !this.range) {
       return;
     }
     const { r1, c1, r2, c2 } = this.range;
