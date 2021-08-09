@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { NgxSmartSpreadsheetComponent } from 'ngx-smart-spreadsheet';
-import SpreadsheetSettings from 'projects/ngx-smart-spreadsheet/src/lib/spreadsheet-settings';
+import { SpreadsheetSettings } from 'ngx-smart-spreadsheet';
 
 @Component({
   selector: 'app-root',
