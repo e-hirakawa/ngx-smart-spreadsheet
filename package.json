@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build ngx-smart-spreadsheet",
+    "publish": "npm run build && npm publish dist/ngx-smart-spreadsheet",
     "build:example": "ng build example",
     "watch": "ng build ngx-smart-spreadsheet --watch --configuration development",
     "test": "ng test"
