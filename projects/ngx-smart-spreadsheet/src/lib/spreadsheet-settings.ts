@@ -1,4 +1,4 @@
-class SpreadsheetSettings {
+export class SpreadsheetSettings {
     constructor(
         public rows: number | null,
         public cols: number | null,
@@ -13,5 +13,3 @@ class SpreadsheetSettings {
         return new SpreadsheetSettings(null, null, data);
     }
 };
-
-export default SpreadsheetSettings;

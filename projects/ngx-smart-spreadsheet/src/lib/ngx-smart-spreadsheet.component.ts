@@ -5,7 +5,7 @@ import Cell from './model/cell';
 import Range from './model/range';
 import Table from './model/table';
 import { NgxContextMenuComponent } from './ngx-context-menu.component';
-import SpreadsheetSettings from './spreadsheet-settings';
+import { SpreadsheetSettings } from './spreadsheet-settings';
 
 @Component({
   selector: 'ngx-smart-spreadsheet',

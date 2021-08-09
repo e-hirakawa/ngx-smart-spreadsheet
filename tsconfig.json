@@ -13,7 +13,6 @@
     "downlevelIteration": true,
     "paths": {
       "ngx-smart-spreadsheet": [
-        "dist/ngx-smart-spreadsheet/ngx-smart-spreadsheet",
         "dist/ngx-smart-spreadsheet"
       ]
     },
