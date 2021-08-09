@@ -108,3 +108,39 @@ export class AppComponent {
 
 }
 ```
+
+# i18n of context menu
+```js
+import { Component } from '@angular/core';
+import { SpreadsheetSettings } from 'ngx-smart-spreadsheet';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <ngx-smart-spreadsheet [settings]="settings">
+    </ngx-smart-spreadsheet>
+  `
+})
+export class AppComponent {
+
+  options: SpreadsheetSettingOptions = {
+    contextMenuRowLabel: {
+      INSERT_ROW_ABOVE: '上に1行追加',
+      INSERT_ROW_BELOW: '下に1行追加',
+      DELETE_ROW: '行を削除'
+    },
+    contextMenuColLabel: {
+      INSERT_COLUMN_LEFT: "左に1列追加",
+      INSERT_COLUMN_RIGHT: "右に1列追加",
+      DELETE_COLUMN: "列を削除",
+    }
+  };
+
+  // Spreadsheet initialization
+  settings: SpreadsheetSettings = SpreadsheetSettings.empty(3, 6, this.options);
+  // or 
+  // settings: SpreadsheetSettings = SpreadsheetSettings.load([ ... ], this.options);
+
+}
+```
+

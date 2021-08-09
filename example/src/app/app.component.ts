@@ -31,9 +31,13 @@ import { SpreadsheetSettings } from 'ngx-smart-spreadsheet';
 export class AppComponent {
   readonly MIN_VALUE = 1;
   readonly MAX_VALUE = 999;
-  readonly DEFAULT_VALUE = 10;
+  readonly DEFAULT_VALUE = 5;
 
   settings: SpreadsheetSettings | null = null;
+
+  constructor() {
+    this.createDummy();
+  }
 
   createEmpty(rowsValue: string, colsValue: string): void {
     const rows = this.parse(rowsValue);
@@ -45,7 +49,7 @@ export class AppComponent {
     const category = ['Bag', 'Hat', 'Footwear', 'Wallet', 'Kitchen', 'Outdoor']
     const status = ['Draft', 'Review', 'Approve', 'Reject', 'Discard']
     const dummy = [['Product ID', 'Product Category', 'Status', 'Price', 'Date']];
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 15; i++) {
       dummy.push([
         `PID${i}`,
         category[this.random(category.length)],

@@ -1,4 +1,4 @@
-<ng-container *ngIf="table">
+<ng-container *ngIf="settings && table">
     <div class="container">
         <table>
             <thead>
@@ -36,22 +36,28 @@
     </div>
 
     <ngx-context-menu #theadMenu (closed)="activeTheadIndex = -1">
-        <ngx-context-menu-item label="Insert 1 column left" (click)="table.insertColumn($event)">
+        <ngx-context-menu-item [label]="settings.options?.contextMenuColLabel?.INSERT_COLUMN_LEFT"
+            (click)="table.insertColumn($event)">
         </ngx-context-menu-item>
-        <ngx-context-menu-item label="Insert 1 column right" (click)="table.insertColumn($event + 1)">
+        <ngx-context-menu-item [label]="settings.options?.contextMenuColLabel?.INSERT_COLUMN_RIGHT"
+            (click)="table.insertColumn($event + 1)">
         </ngx-context-menu-item>
         <ngx-context-menu-item [divider]="true"></ngx-context-menu-item>
-        <ngx-context-menu-item label="Delete column" [disabled]="table.colCount <= 1"
-            (click)="table.deleteColumn($event)">
+        <ngx-context-menu-item [label]="settings.options?.contextMenuColLabel?.DELETE_COLUMN"
+            [disabled]="table.colCount <= 1" (click)="table.deleteColumn($event)">
         </ngx-context-menu-item>
     </ngx-context-menu>
 
     <ngx-context-menu #tbodyMenu (closed)="activeTbodyIndex = -1">
-        <ngx-context-menu-item label="Insert 1 row above" (click)="table.insertRow($event)">
+        <ngx-context-menu-item [label]="settings.options?.contextMenuRowLabel?.INSERT_ROW_ABOVE"
+            (click)="table.insertRow($event)">
         </ngx-context-menu-item>
-        <ngx-context-menu-item label="Insert 1 row below" (click)="table.insertRow($event + 1)"></ngx-context-menu-item>
+        <ngx-context-menu-item [label]="settings.options?.contextMenuRowLabel?.INSERT_ROW_BELOW"
+            (click)="table.insertRow($event + 1)">
+        </ngx-context-menu-item>
         <ngx-context-menu-item [divider]="true"></ngx-context-menu-item>
-        <ngx-context-menu-item label="Delete row" [disabled]="table.rowCount <= 1" (click)="table.deleteRow($event)">
+        <ngx-context-menu-item [label]="settings.options?.contextMenuRowLabel?.DELETE_ROW"
+            [disabled]="table.rowCount <= 1" (click)="table.deleteRow($event)">
         </ngx-context-menu-item>
     </ngx-context-menu>
 </ng-container>
