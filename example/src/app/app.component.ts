@@ -4,7 +4,26 @@ import { SpreadsheetSettings } from 'ngx-smart-spreadsheet';
 @Component({
   selector: 'app-root',
   template: `
-  <h1>Lightweight spreadsheet for Angular</h1>
+  <div class="gh"></div>
+  <h1>
+    <img src="favicon.ico" alt="" />
+    Lightweight spreadsheet for Angular
+  </h1>
+  <div class="info">
+    <a href="https://www.npmjs.com/package/ngx-smart-spreadsheet">
+      <img src="https://img.shields.io/npm/v/ngx-smart-spreadsheet.svg" alt="npm version" />
+    </a>
+    <a href="https://github.com/e-hirakawa/ngx-smart-spreadsheet/blob/main/LICENSE">
+      <img src="https://img.shields.io/github/license/e-hirakawa/ngx-smart-spreadsheet.svg" alt="license" />
+    </a>
+    <a href="https://github.com/e-hirakawa/ngx-smart-spreadsheet">
+      <img src="https://img.shields.io/bundlephobia/min/ngx-smart-spreadsheet.svg" alt="minified size" />
+    </a>
+    <a href="https://www.npmjs.com/package/ngx-smart-spreadsheet">
+      <img src="https://img.shields.io/npm/dt/ngx-smart-spreadsheet.svg" alt="downloads" />
+    </a>
+  </div>
+  <hr />
   <div class="settings">
     <label>Rows
       <input #inputRows type="number" [min]="MIN_VALUE" [max]="MAX_VALUE" [value]="DEFAULT_VALUE" />
@@ -23,6 +42,9 @@ import { SpreadsheetSettings } from 'ngx-smart-spreadsheet';
   </ng-container>
   `,
   styles: [
+    'h1 { color: #666; display: inline-flex; align-items: center;}',
+    'h1 > img { opacity: 0.6; margin-right: 10px; }',
+    '.info { display: flex; gap: 10px; }',
     '.settings { display: flex; gap: 1em; margin: 1em; }',
     'input { min-width: 8em; }',
     '.divider { border-left: 1px solid #ddd; margin-left: 0.5em; padding-right: 0.5em; }'

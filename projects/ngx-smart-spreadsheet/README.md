@@ -4,8 +4,7 @@ Lightweight spreadsheet module for Angular
 [![npm](https://img.shields.io/npm/v/ngx-smart-spreadsheet.svg)](https://www.npmjs.com/package/ngx-smart-spreadsheet)
 [![GitHub license](https://img.shields.io/github/license/e-hirakawa/ngx-smart-spreadsheet.svg)](https://github.com/e-hirakawa/ngx-smart-spreadsheet)
 [![npm](https://img.shields.io/bundlephobia/min/ngx-smart-spreadsheet.svg)](https://www.npmjs.com/package/ngx-smart-spreadsheet)
-
-<!-- [![npm total downloads](https://img.shields.io/npm/dt/ngx-smart-spreadsheet.svg)](https://github.com/e-hirakawa/ngx-smart-spreadsheet) -->
+[![npm total downloads](https://img.shields.io/npm/dt/ngx-smart-spreadsheet.svg)](https://github.com/e-hirakawa/ngx-smart-spreadsheet)
 
 # DEMO
 https://e-hirakawa.github.io/ngx-smart-spreadsheet/
