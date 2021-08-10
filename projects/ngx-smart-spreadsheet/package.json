@@ -1,6 +1,6 @@
 {
   "name": "ngx-smart-spreadsheet",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "peerDependencies": {
     "@angular/common": "^12.1.0",
     "@angular/core": "^12.1.0"

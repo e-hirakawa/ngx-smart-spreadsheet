@@ -91,6 +91,9 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   private onKeyDown(ev: KeyboardEvent): void {
     const key = ev.key.toLowerCase();
     const isCtrl = ((ev.ctrlKey && !ev.metaKey) || (!ev.ctrlKey && ev.metaKey));
+    if (!this.table) {
+      return;
+    }
 
     if (!this.anchor && ev.shiftKey && this.activatedCell) {
       const { row, col } = this.activatedCell;
@@ -105,11 +108,20 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
       }
     } else if (key === 'tab' && this.activatedCell) {
       ev.preventDefault();
+      const { rowCount, colCount } = this.table;
       const { row, col, editable } = this.activatedCell;
       const next = ev.shiftKey ? col - 1 : col + 1;
-      this.moveTo(row, next, false, editable);
+      if (next < 0 && row > 0) {
+        this.moveTo(row - 1, colCount - 1, false, editable);
+      } else if (next >= colCount && row < rowCount) {
+        this.moveTo(row + 1, 0, false, editable);
+      } else {
+        this.moveTo(row, next, false, editable);
+      }
     } else if (key === 'f2') {
       this.setEditable(ev, true);
+    } else if (key === 'escape') {
+      this.setEditable(ev, false);
     } else if (key === 'c' && isCtrl) {
       this.copy();
     } else if (key === 'v' && isCtrl) {
