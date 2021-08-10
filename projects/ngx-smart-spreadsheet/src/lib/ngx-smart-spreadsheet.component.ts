@@ -100,13 +100,14 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
     if (key === 'enter' && this.activatedCell) {
       const { row, col, editable } = this.activatedCell;
       if (editable && ev.shiftKey) {
-        this.moveTo(row + 1, col, false);
+        ev.preventDefault();
+        this.moveTo(row + 1, col, false, editable);
       }
     } else if (key === 'tab' && this.activatedCell) {
       ev.preventDefault();
-      const { row, col } = this.activatedCell;
+      const { row, col, editable } = this.activatedCell;
       const next = ev.shiftKey ? col - 1 : col + 1;
-      this.moveTo(row, next, false);
+      this.moveTo(row, next, false, editable);
     } else if (key === 'f2') {
       this.setEditable(ev, true);
     } else if (key === 'c' && isCtrl) {
@@ -129,16 +130,16 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
     const { row, col } = this.activatedCell;
     switch (ev.key.toLowerCase()) {
       case 'arrowup':
-        this.moveTo(row - 1, col, ev.shiftKey);
+        this.moveTo(row - 1, col, ev.shiftKey, false);
         break;
       case 'arrowdown':
-        this.moveTo(row + 1, col, ev.shiftKey);
+        this.moveTo(row + 1, col, ev.shiftKey, false);
         break;
       case 'arrowleft':
-        this.moveTo(row, col - 1, ev.shiftKey);
+        this.moveTo(row, col - 1, ev.shiftKey, false);
         break;
       case 'arrowright':
-        this.moveTo(row, col + 1, ev.shiftKey);
+        this.moveTo(row, col + 1, ev.shiftKey, false);
         break;
     }
   }
@@ -208,7 +209,7 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
   }
   //#endregion
 
-  private moveTo(row: number, col: number, shiftKey: boolean): void {
+  private moveTo(row: number, col: number, shiftKey: boolean, editable: boolean): void {
     if (!this.table) {
       return;
     }
@@ -227,11 +228,13 @@ export class NgxSmartSpreadsheetComponent implements OnInit {
           s?.removeAllRanges();
           s?.addRange(r);
         }
-
         if (shiftKey && this.range && this.anchor) {
           this.range = Range.marge(this.anchor, { r: row, c: col });
         } else {
           this.range = Range.of(cell.row, cell.col);
+        }
+        if (editable) {
+          cell.editable = true;
         }
       }
     }
