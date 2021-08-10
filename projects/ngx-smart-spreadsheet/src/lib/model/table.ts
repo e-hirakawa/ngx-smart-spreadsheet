@@ -25,17 +25,15 @@ class Table {
             throw new Error('Error: invalid data structure');
         }
         const tableId = generageId();
-        const cols = data[0].length;
+        const cols = data.reduce((prev, current) => Math.max(prev, current.length), 0);
         const head = Array(cols).fill('').map((v, c) => generateHeader(c + 1));
         const body = [];
         for (let r = 0; r < data.length; r++) {
             const row = data[r];
-            if (head.length !== row.length) {
-                throw new Error('Error: invalid data structure');
-            }
             const bodyRow: Cell[] = [];
-            for (let c = 0; c < row.length; c++) {
-                bodyRow.push(new Cell(tableId, r, c, row[c]));
+            for (let c = 0; c < cols; c++) {
+                const value = c < row.length ? row[c] : '';
+                bodyRow.push(new Cell(tableId, r, c, value));
             }
             body.push(bodyRow);
         }
